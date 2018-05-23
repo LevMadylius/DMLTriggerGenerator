@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMLTriggerGenerator", "DMLT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMLTriggerGenerator.Tests", "DMLTriggerGenerator.Tests\DMLTriggerGenerator.Tests.csproj", "{8963BD01-FDBC-4472-8F61-A6D642B34811}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMLTriggerGenerator.DAL", "..\DMLTriggerGenerator.DAL\DMLTriggerGenerator.DAL.csproj", "{8070DA5A-CD74-4B2B-877C-A93CE7FBEDD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMLTriggerGenerator.Utils", "DMLTriggerGenerator.Utils\DMLTriggerGenerator.Utils.csproj", "{E5A3691B-4ECC-4D70-B731-1CAAA0648638}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{8963BD01-FDBC-4472-8F61-A6D642B34811}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8963BD01-FDBC-4472-8F61-A6D642B34811}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8963BD01-FDBC-4472-8F61-A6D642B34811}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8070DA5A-CD74-4B2B-877C-A93CE7FBEDD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8070DA5A-CD74-4B2B-877C-A93CE7FBEDD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8070DA5A-CD74-4B2B-877C-A93CE7FBEDD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8070DA5A-CD74-4B2B-877C-A93CE7FBEDD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5A3691B-4ECC-4D70-B731-1CAAA0648638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5A3691B-4ECC-4D70-B731-1CAAA0648638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5A3691B-4ECC-4D70-B731-1CAAA0648638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5A3691B-4ECC-4D70-B731-1CAAA0648638}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
