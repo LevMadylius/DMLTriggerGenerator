@@ -20,7 +20,7 @@ namespace DMLTriggerGenerator.DAL.Model
                 throw new ConnectionStringInvalidException("One of parameters is empty");
             }
 
-            string connectionString = $"Data Source={IP.ToString()},{Port};Network Library=DBMSSOCN;Network Library={InitialCatalog};User ID={UserId};Password={Password}";
+            string connectionString = $"Data Source={IP.ToString()},{Port};Network Library=DBMSSOCN;Initial Catalog={InitialCatalog};User ID={UserId};Password={Password}";
 
 
             return connectionString;

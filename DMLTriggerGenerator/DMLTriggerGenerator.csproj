@@ -318,6 +318,16 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DMLTriggerGenerator.DAL\DMLTriggerGenerator.DAL.csproj">
+      <Project>{0BDC41CC-BA7D-49A2-91E3-14E572134CF8}</Project>
+      <Name>DMLTriggerGenerator.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DMLTriggerGenerator.Utils\DMLTriggerGenerator.Utils.csproj">
+      <Project>{e5a3691b-4ecc-4d70-b731-1caaa0648638}</Project>
+      <Name>DMLTriggerGenerator.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

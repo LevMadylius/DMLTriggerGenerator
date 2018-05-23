@@ -41,9 +41,10 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
             }
         }
 
-        internal static DataTable ExecuteQuery(string query, CommandType commandType = CommandType.Text, params SqlParameter[] arrParam)
+        public static DataTable ExecuteQuery(string query, CommandType commandType = CommandType.Text, params SqlParameter[] arrParam)
         {
             DataTable dt = new DataTable();
+            
             string connectionString = ConnectionString.GetConnectionString();
 
             using (var connect = new SqlConnection(connectionString))
@@ -66,7 +67,8 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
                     using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
                     {
                         adapter.Fill(dt);
-                    }
+                    }               
+
                     connect.Close();
                 }
             }
@@ -93,3 +95,4 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
         //    }
         //}
     }
+}

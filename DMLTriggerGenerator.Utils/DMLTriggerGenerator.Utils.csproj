@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomExceptions\ConnectionStringInvalid.cs" />
+    <Compile Include="Helpers\DbTypeConverter.cs" />
+    <Compile Include="Helpers\Scripts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
