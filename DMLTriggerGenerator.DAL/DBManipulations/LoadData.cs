@@ -16,10 +16,10 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
             return DbTypeConverter.TablesNamesFromDataTable(SQLDatabase.ExecuteQuery(Scripts.GetTablesNamesScript));
         }
 
-        public static List<ColumnModel> GetTableColumns(string tableName)
+        public static TableModel GetTableByName(string tableName)
         {
             var query = Scripts.GetColumScript(tableName);
-            var dataTable = SQLDatabase.ExecuteQuery(query, System.Data.CommandType.Text);
+            var dataTable = SQLDatabase.ExecuteQuery(query, CommandType.Text);
             int tempCharMax = 0;
             List<ColumnModel> columnsList = new List<ColumnModel>();
             foreach(DataRow row in dataTable.Rows)
@@ -33,7 +33,7 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
                 });               
             }
 
-            return columnsList;
+            return new TableModel { TableName = tableName, Columns = columnsList };
         }
     }
 }

@@ -19,7 +19,8 @@ namespace DMLTriggerGenerator.Controllers
 
             var result = LoadData.GetTableNames();
 
-            var cols = LoadData.GetTableColumns("Users");
+            var table = LoadData.GetTableByName("Users");
+            string createTableString = TableOperations.CreateTable(table);
             ViewBag.Title = "Home Page";
 
             return View();
