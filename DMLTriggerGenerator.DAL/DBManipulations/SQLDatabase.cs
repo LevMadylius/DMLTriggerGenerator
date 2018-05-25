@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,8 +34,8 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
                         }
                     }
 
-                    command.Connection.OpenAsync();
-                    command.ExecuteNonQueryAsync();
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
                     command.Connection.Close();
 
                 }
@@ -75,24 +76,39 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
 
             return dt;
         }
-        // unfinished
-        //    public static List<string> GetCollectionItems(string query, CommandType commandType = CommandType.Text, params SqlParameter[] arrParam)
-        //    {
-        //        List<string>searchResult = new List<string>();
 
-        //        using (DataTable resultTable = ExecuteQuery(query, CommandType.Text, arrParam))
-        //        {
-        //            resultTable.
-        //            foreach (DataRow row in resultTable.Rows)
-        //            {
-        //                row.
-        //                var entity = new T();
-        //                if (entity != null)
-        //                    searchResult.Add(entity);
-        //            }
-        //        }
-        //        return searchResult;
-        //    }
-        //}
+        internal static T ExecuteScalar<T>(string query, CommandType commandType = CommandType.Text, params SqlParameter[] arrParam)
+        {
+            T result;
+
+            string connectionString = ConnectionString.GetConnectionString();
+
+            using (var connect = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, connect))
+                {
+                    cmd.CommandTimeout = CommandTimeout;
+                    cmd.CommandType = commandType;
+
+                    if (arrParam != null)
+                    {
+                        foreach (SqlParameter param in arrParam)
+                        {
+                            cmd.Parameters.Add(param);
+                        }
+                    }
+                    connect.Open();
+                    var value = cmd.ExecuteScalar();
+                    connect.Close();
+                    if (value == DBNull.Value || value == null)
+                        result = default(T);
+                    else if (value is INullable)
+                        result = ((INullable)value).IsNull ? default(T) : (T)value;
+                    else
+                        result = (T)value;
+                } 
+            }
+            return result;
+        }
     }
 }

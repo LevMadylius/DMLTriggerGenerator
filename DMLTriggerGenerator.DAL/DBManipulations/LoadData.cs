@@ -16,7 +16,7 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
             return DbTypeConverter.TablesNamesFromDataTable(SQLDatabase.ExecuteQuery(Scripts.GetTablesNamesScript));
         }
 
-        public static TableModel GetTableByName(string tableName)
+        public static TableModel GetTableModelByName(string tableName)
         {
             var query = Scripts.GetColumScript(tableName);
             var dataTable = SQLDatabase.ExecuteQuery(query, CommandType.Text);

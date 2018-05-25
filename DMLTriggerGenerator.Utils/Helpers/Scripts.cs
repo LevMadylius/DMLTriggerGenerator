@@ -6,7 +6,7 @@
         public static readonly string DefaultTransactionName = "DMLTriggerTransaction";
         public static string GetColumScript(string tableName)
         {
-            return $"SELECT cols.COLUMN_NAME, cols.IS_NULLABLE, cols.DATA_TYPE, cols.CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS cols WHERE TABLE_NAME = '{tableName}'";
+            return $"SELECT cols.COLUMN_NAME, cols.IS_NULLABLE, cols.DATA_TYPE, cols.CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS cols WHERE TABLE_NAME = '{tableName}' ORDER BY TABLE_NAME";
         }
 
 

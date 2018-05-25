@@ -12,15 +12,21 @@ namespace DMLTriggerGenerator.Controllers
         {
             string sql = "SELECT TABLE_NAME AS TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME";
             ConnectionString.IP = IPAddress.Loopback;
-            ConnectionString.InitialCatalog = "simma";
+            ConnectionString.InitialCatalog = "testDB";
             ConnectionString.Port = 1433;
             ConnectionString.UserId = "sa";
             ConnectionString.Password = "Qwerty123$";
 
             var result = LoadData.GetTableNames();
 
-            var table = LoadData.GetTableByName("Users");
-            string createTableString = TableOperations.CreateTable(table);
+            var table = LoadData.GetTableModelByName(result[0]);
+
+            TableOperations.CreateTrackingMechanism(table, "insert");
+
+            bool res = TableOperations.CheckTableExists("OpenedUsers");
+
+            var cols = TableOperations.CheckTableHistoryChanges(table, table);
+
             ViewBag.Title = "Home Page";
 
             return View();
