@@ -9,7 +9,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<style>
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 550px}
+    .row.content {height: 550px;}
 
     /* Set gray background color and 100% height */
     .sidenav {
@@ -20,41 +20,71 @@
 	</style>
 </head>
 <body>
-	<nav class="navbar navbar-inverse visible-xs">
+	@*<nav class="navbar navbar-inverse visible-xs">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#list-tables">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="#">Logo</a>
 			</div>
-			<div class="collapse navbar-collapse" id="myNavbar">
+			<div class="collapse navbar-collapse" id="list-tables">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Dashboard</a></li>
-					<li><a href="#">Age</a></li>
-					<li><a href="#">Gender</a></li>
-					<li><a href="#">Geo</a></li>
+					<li class="active"><a href="#">TableName</a></li>
+					<li><a href="#">TableName1</a></li>
+					<li><a href="#">TableName2</a></li>
+					<li><a href="#">TableName3</a></li>
 				</ul>
 			</div>
 		</div>
-	</nav>
+	</nav>*@
 
 	<div class="container-fluid">
 		<div class="row content">
-			<div class="col-sm-3 sidenav hidden-xs">
-				<h2>Logo</h2>
-				<ul class="nav nav-pills nav-stacked">
+			<div class="col-sm-3 sidenav">
+				<h2>Table names</h2>
+				<ul class="nav nav-pills nav-stacked" id="list-tables">
 					<li class="active"><a href="#section1">Dashboard</a></li>
 					<li><a href="#section2">Age</a></li>
 					<li><a href="#section3">Gender</a></li>
 					<li><a href="#section3">Geo</a></li>
+					<li class="active"><a href="#section1">Dashboard</a></li>
+
 				</ul><br>
 			</div>
 			<br>
-
 			<div class="col-sm-9">
+					<div class="row content ">
+						<div class="column-section">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Columns</h3>
+								</div>
+								<div class="panel-body" id="columns-body">
+									<p>Hello from body</p>
+									<p>Hello from body</p>
+									<p>Hello from body</p>
+									<p>Hello from body</p><p>Hello from body</p>
+									<p>Hello from body</p>
+									<p>Hello from body</p>
+									<p>Hello from body</p>
+									<p>Hello from body</p>
+									<p>Hello from body</p>
+									<p>Hello from body</p>
+									<p>Hello from body</p>
+									<p>Hello from body</p>
+									<p>Hello from body</p>
+									<p>Hello from body</p>
+									<p>Hello from body</p>
+									<p>Hello from body</p>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+			@*<div class="col-sm-9">
 				<div class="well">
 					<h4>Dashboard</h4>
 					<p>Some text..</p>
@@ -120,7 +150,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>*@
 		</div>
 	</div>
 
