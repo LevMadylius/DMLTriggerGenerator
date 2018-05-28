@@ -1,0 +1,25 @@
+﻿@model IEnumerable<DMLTriggerGenerator.DAL.Model.ColumnModel>
+@Styles.Render("~/Content/css")
+@{
+    ViewBag.Title = "_columns";
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<ul>
+		@foreach (var col in Model)
+		{
+			<li class="li-styling column-element">
+				<p class="column-data">@col.ColumnName  @col.DataType.ToUpper() @((col.CharacterMaxLength != null) ? $"({col.CharacterMaxLength})" : "")
+				@(col.ISNullable == DMLTriggerGenerator.DAL.Enums.IsNullable.YES? "NULL": "NOT NULL" )
+				</p>
+				<label class="checkbox-inline"><input type="checkbox" value="">Insert</label>
+				<label class="checkbox-inline"><input type="checkbox" value="">Update</label>
+				<label class="checkbox-inline"><input type="checkbox" value="">Delete</label>
+			</li>
+					}
+	</ul>
+
+

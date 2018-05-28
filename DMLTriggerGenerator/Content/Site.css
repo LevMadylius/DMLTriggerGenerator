@@ -1,6 +1,6 @@
-﻿html body{
+﻿/*html body{
     height:100%;
-}
+}*/
 
 body {
     padding-top: 50px;
@@ -29,10 +29,15 @@ textarea {
   margin: unset;
 }
 
-.navbar-collapse ul{
+.li-styling{
     padding: unset;
     list-style-type: none;
 }
+
+/*.navbar-collapse ul{
+    padding: unset;
+    list-style-type: none;
+}*/
 
 #list-tables{
     height: 88%;
@@ -55,4 +60,19 @@ textarea {
     max-height: 470px;
     overflow: auto;
     overflow-x: hidden;
+}
+
+.column-element{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px #dddddd solid;
+}
+
+.column-data{
+    font-size: 16px;
+    font-weight:bold;
+}
+
+#columns-panel-title{
+    font-size: 20px;
 }

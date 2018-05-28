@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model List<string>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>Bootstrap Example</title>
@@ -7,6 +9,10 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+
+	@*@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js");*@
+	@Scripts.Render("~/bundles/jquery")
 	<style>
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
     .row.content {height: 550px;}
@@ -46,12 +52,24 @@
 			<div class="col-sm-3 sidenav">
 				<h2>Table names</h2>
 				<ul class="nav nav-pills nav-stacked" id="list-tables">
-					<li class="active"><a href="#section1">Dashboard</a></li>
-					<li><a href="#section2">Age</a></li>
-					<li><a href="#section3">Gender</a></li>
-					<li><a href="#section3">Geo</a></li>
-					<li class="active"><a href="#section1">Dashboard</a></li>
-
+				@{if (Model != null && Model.Count > 0)
+					{
+						foreach (var name in Model)
+						{
+								<li class="li-styling">
+									@Ajax.ActionLink(name,
+								   "GetColumns",
+								   new { tableName = name },
+								   new AjaxOptions()
+								   {
+									   UpdateTargetId = "columns-body",
+									   InsertionMode = InsertionMode.Replace,
+									   HttpMethod = "GET"
+								   })
+								</li>
+							}
+						}
+					}
 				</ul><br>
 			</div>
 			<br>
@@ -59,26 +77,14 @@
 					<div class="row content ">
 						<div class="column-section">
 							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3 class="panel-title">Columns</h3>
+								<div class="panel-heading clearfix">
+									<div id="columns-panel-title" class="panel-title pull-left">Columns</div>
+									<div class="pull-right">
+										<button type="button" class="btn btn-info btn-sm">Generate</button>
+									</div>
 								</div>
 								<div class="panel-body" id="columns-body">
-									<p>Hello from body</p>
-									<p>Hello from body</p>
-									<p>Hello from body</p>
-									<p>Hello from body</p><p>Hello from body</p>
-									<p>Hello from body</p>
-									<p>Hello from body</p>
-									<p>Hello from body</p>
-									<p>Hello from body</p>
-									<p>Hello from body</p>
-									<p>Hello from body</p>
-									<p>Hello from body</p>
-									<p>Hello from body</p>
-									<p>Hello from body</p>
-									<p>Hello from body</p>
-									<p>Hello from body</p>
-									<p>Hello from body</p>
+
 								</div>
 							</div>
 						</div>

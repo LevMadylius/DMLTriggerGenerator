@@ -12,14 +12,14 @@ namespace DMLTriggerGenerator.Controllers
         {
             string sql = "SELECT TABLE_NAME AS TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME";
             ConnectionString.IP = IPAddress.Loopback;
-            ConnectionString.InitialCatalog = "testDB";
+            ConnectionString.InitialCatalog = "simma";
             ConnectionString.Port = 1433;
             ConnectionString.UserId = "sa";
             ConnectionString.Password = "Qwerty123$";
 
-            var result = LoadData.GetTableNames();
+            var tableNames = LoadData.GetTableNames();
 
-            var table = LoadData.GetTableModelByName(result[0]);
+            var table = LoadData.GetTableModelByName(tableNames[0]);
 
             TableOperations.CreateTrackingMechanism(table, "insert");
 
@@ -29,7 +29,14 @@ namespace DMLTriggerGenerator.Controllers
 
             ViewBag.Title = "Home Page";
 
-            return View();
+            return View(tableNames);
+        }
+
+        public PartialViewResult GetColumns(string tableName)
+        {
+            var columns = LoadData.GetTableModelByName(tableName);
+
+            return PartialView("_columns", columns.Columns);
         }
     }
 }
