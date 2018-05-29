@@ -1,4 +1,4 @@
-﻿@using DMLTriggerGenerator.DAL.Model;
+﻿@using DMLTriggerGenerator.Utils;
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,18 +20,20 @@
 					</button>
 				</div>
 				<div class="navbar-collapse collapse">
-					@if (ConnectionString.InitialCatalog != null)
+					@*fix issue*@
+					@*@if (Session["ConnectionModel"].IP != null)
 					{
+						@Session.
 						<ul class="nav navbar-nav navbar-left">
-							<li class="connection-info">Database: @ConnectionString.InitialCatalog</li>
-							<li class="connection-info">User: @ConnectionString.UserId</li>
+							<li class="connection-info">Database: @ConnectionString.GlobalString.InitialCatalog</li>
+							<li class="connection-info">User: @ConnectionString.GlobalString.UserId</li>
 							<li>
 								@Html.ActionLink("Logout", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 							</li>
 						</ul>
-					}
+					}*@
 					<div class="nav navbar-nav navbar-right">
-						@Html.ActionLink("Logout from service", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+						@Html.ActionLink("Logout from service", "Index", "Connection", new { area = "" }, new { @class = "navbar-brand" })
 					</div>
 				</div>
 			</div>

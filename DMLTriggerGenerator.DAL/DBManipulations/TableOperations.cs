@@ -87,9 +87,9 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
                 {   
                     var colNames = currentTable.Columns.Select(item => item.ColumnName);
                     var rejectList = newModel.Columns.Where(item => colNames.Contains(item.ColumnName));
-                    var col = newModel.Columns.Except(rejectList).Single();
+                    var col = newModel.Columns.Except(rejectList);
 
-                    list.Add(col);
+                    list.AddRange(col);
                     list.AddRange(ChangedColumns(currentTable, newModel));
 
                 }

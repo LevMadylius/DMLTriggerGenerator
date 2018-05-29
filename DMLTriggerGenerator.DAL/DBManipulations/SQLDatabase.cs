@@ -1,4 +1,5 @@
 ﻿using DMLTriggerGenerator.DAL.Model;
+using DMLTriggerGenerator.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,10 +14,12 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
     public static class SQLDatabase
     {
         private const int CommandTimeout = 180;
+        private static HttpContextSessionWrapper _sessionWrapper = new HttpContextSessionWrapper();
+
 
         public static void CreateCommand(string query, CommandType commandType = CommandType.Text, params SqlParameter[] arrParam)
         {
-            string connectionString = ConnectionString.GetConnectionString();
+            string connectionString = _sessionWrapper.ConnectionString;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -46,7 +49,7 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
         {
             DataTable dt = new DataTable();
             
-            string connectionString = ConnectionString.GetConnectionString();
+            string connectionString = _sessionWrapper.ConnectionString;
 
             using (var connect = new SqlConnection(connectionString))
             {
@@ -81,7 +84,7 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
         {
             T result;
 
-            string connectionString = ConnectionString.GetConnectionString();
+            string connectionString = _sessionWrapper.ConnectionString;
 
             using (var connect = new SqlConnection(connectionString))
             {
@@ -109,6 +112,24 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
                 } 
             }
             return result;
+        }
+
+        public static bool VerifyConnectivity(string connectionString)
+        {
+            using (SqlConnection connection = new SqlConnection())
+            {
+                connection.ConnectionString = connectionString;
+                try
+                {
+                    connection.Open();
+                    connection.Close();
+                }
+                catch (SqlException ex)
+                {
+                    throw;
+                }
+                return true;
+            }
         }
     }
 }
