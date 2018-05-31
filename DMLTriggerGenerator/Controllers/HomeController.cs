@@ -26,8 +26,6 @@ namespace DMLTriggerGenerator.Controllers
             //connectionString.UserId = "sa";
             //connectionString.Password = "Qwerty123$";
 
-            _sessionWrapper.ConnectionString = _sessionWrapper.ConnectionString;
-
             var tableNames = LoadData.GetTableNames();
 
             return View(tableNames);

@@ -16,7 +16,6 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
         private const int CommandTimeout = 180;
         private static HttpContextSessionWrapper _sessionWrapper = new HttpContextSessionWrapper();
 
-
         public static void CreateCommand(string query, CommandType commandType = CommandType.Text, params SqlParameter[] arrParam)
         {
             string connectionString = _sessionWrapper.ConnectionString;
@@ -84,7 +83,7 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
         {
             T result;
 
-            string connectionString = _sessionWrapper.ConnectionString;
+            string connectionString = new HttpContextSessionWrapper().ConnectionString;
 
             using (var connect = new SqlConnection(connectionString))
             {

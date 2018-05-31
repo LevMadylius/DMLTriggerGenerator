@@ -14,6 +14,8 @@
             return $"IF OBJECT_ID ('{triggerName}', 'TR') IS NOT NULL  DROP TRIGGER {triggerName}; ";
         }
 
+
+
         public static string GetColumsScript(string tableName, string columnNames)
         {
             return $"SELECT cols.COLUMN_NAME, cols.IS_NULLABLE, cols.DATA_TYPE, cols.CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS cols WHERE TABLE_NAME = '{tableName}' AND COLUMN_NAME IN {columnNames} ORDER BY cols.TABLE_NAME";

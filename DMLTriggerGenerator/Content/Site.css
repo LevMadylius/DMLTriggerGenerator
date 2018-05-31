@@ -34,11 +34,6 @@ textarea {
     list-style-type: none;
 }
 
-/*.navbar-collapse ul{
-    padding: unset;
-    list-style-type: none;
-}*/
-
 #list-tables{
     height: 88%;
     overflow: auto;

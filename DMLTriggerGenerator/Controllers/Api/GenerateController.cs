@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using DMLTriggerGenerator.DAL.Model;
 using DMLTriggerGenerator.DAL.DBManipulations;
+using DMLTriggerGenerator.Utils;
 
 namespace DMLTriggerGenerator.Controllers.Api
 {
@@ -25,9 +26,9 @@ namespace DMLTriggerGenerator.Controllers.Api
                 listColumns.Add(new TrackingColumn()
                 {
                     ColumnName = el[0],
-                    Insert = (el.Contains("Insert")) ? "Insert" : null,
-                    Update = (el.Contains("Update")) ? "Update" : null,
-                    Delete = (el.Contains("Delete")) ? "Delete" : null
+                    Insert = (el.Contains("Insert")) ? "INSERT" : null,
+                    Update = (el.Contains("Update")) ? "UPDATE" : null,
+                    Delete = (el.Contains("Delete")) ? "DELETE" : null
                 });                
             }
 
@@ -44,12 +45,15 @@ namespace DMLTriggerGenerator.Controllers.Api
         [Route("Api/GetTrackingInfo")]
         public string GetTrackingInfo()
         {
-            if(!TableOperations.CheckTableExists(_trackingModel.TableName))
-            {
+            HttpContextSessionWrapper session = new HttpContextSessionWrapper();
+            var smth = session.ConnectionString;
+            var operations = _trackingModel.Columns.Where(el => el.Insert != null || el.Update != null || el.Delete != null).
+                                                    Select(el => el.Insert != null || el.Update != null || el.Delete != null);
+            var info = TrackingInfo.GetInfo(_trackingModel,null);
 
-            }
+            
 
-            return "test";
+            return info;
         }
     }
 }

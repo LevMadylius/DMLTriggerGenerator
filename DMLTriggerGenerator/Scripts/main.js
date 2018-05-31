@@ -2,26 +2,23 @@
 
     var selectedTable;
 
-    $("#GenerateTrigger").click(function () {
+    var proccessInfo = function () {
         debugger
-        var val = [];
-
         var tempObj = new Array();
         var arr = new Array();
         var listLis = $('#listClolumns li');
 
         listLis.each(function (idx, li) {
-            if ($('input[type="checkbox"]:checked', li))
-            {
+            if ($('input[type="checkbox"]:checked', li)) {
                 var tableName = $('.column-title', li).text().toString();
                 tempObj.push(tableName);
                 $('input[type="checkbox"]:checked', li).each(function (idx, item) {
                     tempObj.push(item.value);
-                });                
+                });
                 arr.push(tempObj);
                 tempObj = new Array();
 
-            }                
+            }
         });
         console.log(arr);
 
@@ -30,14 +27,22 @@
             data: JSON.stringify(arr),
             contentType: 'application/json',
             dataType: 'json',
-            type: 'post' //,
-           // success: onRulesSaved
-        } 
-   );
-
-        $('input[type="checkbox"][name="Insert"]:checked').each(function (i) {
-            val[i] = $(this).val();
+            type: 'post',
+            complete: function (data) {
+                $.ajax({
+                    url: '/Api/GetTrackingInfo',
+                    type: 'get',
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
         });
+    };
+
+    $("#GenerateTrigger").click(function () {
+
+
     });
 
     $('#list-tables li').on('click', function () {
@@ -49,14 +54,12 @@
 
     $('#GenerateModal').on('show.bs.modal', function (e) {
         debugger
+        proccessInfo()
 
-        $.ajax({
-            url: '/Api/GetTrackingInfo',
-            type: 'get',
-            success: function (data) {
-                console.log(data);
-            }
-        });
+        //_.defer(function () {
+            
+        //});
+        
 
     });
 });

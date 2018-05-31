@@ -44,6 +44,7 @@
     <Compile Include="DBManipulations\TableOperations.cs" />
     <Compile Include="DBManipulations\LoadData.cs" />
     <Compile Include="DBManipulations\SQLDatabase.cs" />
+    <Compile Include="DBManipulations\TrackingInfo.cs" />
     <Compile Include="Enums\IsNullable.cs" />
     <Compile Include="Model\ColumnModel.cs" />
     <Compile Include="Model\ConnectionString.cs" />
