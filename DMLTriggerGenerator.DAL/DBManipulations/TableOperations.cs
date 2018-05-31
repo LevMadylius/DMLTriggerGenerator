@@ -1,4 +1,5 @@
 ﻿using DMLTriggerGenerator.DAL.Model;
+using DMLTriggerGenerator.Utils.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,19 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
 
             return builder.ToString();
         }
+
+        public static string ColumnSetFromInStatement(List<string> listCols)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("(");
+            foreach (var column in listCols)
+            {
+                builder.Append($"'{column}',");
+            }
+            builder.Length--;
+            builder.Append(")");
+            return builder.ToString();
+        }
         // for creating of altering trigger
         private static string GetCreateTriggerString(TableModel trackingModel, string operation)
         {
@@ -57,13 +71,85 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
             return builder.ToString();
         }
 
+        private static string GetTableOpertationsString(TableModel model)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append($"CREATE TABLE {model.TableName}_OperationsStored (");
+            builder.Append($"{model.TableName}__OperationsStoredID INT IDENTITY(1,1),");
+            builder.Append($"COL_NAME VARCHAR(128) NOT NULL,");
+            builder.Append($"INSERT BIT NULL,");
+            builder.Append($"UPDATE BIT NULL,");
+            builder.Append($"DELETE BIT NULL)");
+
+            return builder.ToString();
+        }
+
+        public static void DropAllTriggers(TableModel model)
+        {
+
+        }
+
+        public static void DropTrigger(string tableName, string operation)
+        {
+            string triggerName = $"{tableName}{operation}Triggger";
+            var query = Scripts.DropTrigger(triggerName);
+            SQLDatabase.CreateCommand(query);
+        }
+
+        public static void Tracking(string[] operations, TrackingModel trackingModel)
+        {
+            var model = LoadData.GetTableModelByName(trackingModel);
+            //triggers validation
+            string[]  TrOperations = new string[]
+            {
+                "INSERT", "UPDATE", "DELETE"
+            };
+            var filteredList = operations.Where(el => TrOperations.Contains(el)).ToList();
+            var rejectList = TrOperations.Except(filteredList).ToList();
+
+            if(rejectList != null && rejectList.Any())
+            {
+                foreach(var el in rejectList)
+                {
+                    DropTrigger(model.TableName,el);
+                }
+            }
+            //
+            var tableCreateString = GetCreateTableString(model);
+            if (!CheckTableExists($"{model.TableName}_History"))
+            {
+                var tableOperationsCreateString = GetTableOpertationsString(model);
+                var tableHistoryCreateString = GetCreateTableString(model);
+                SQLDatabase.CreateCommand(tableOperationsCreateString);
+                SQLDatabase.CreateCommand(tableHistoryCreateString);
+            }
+            else
+            {
+                var colNamesInsert = trackingModel.Columns.Where(el => el.Insert != null)
+                                                    .Select(el => el.ColumnName);
+                var colNamesUpdate = trackingModel.Columns.Where(el => el.Update != null)
+                                                    .Select(el => el.ColumnName);
+                var colNamesDelete = trackingModel.Columns.Where(el => el.Delete != null)
+                                                    .Select(el => el.ColumnName);
+
+                var filteredModelInsert = model.Columns.Where(el => colNamesInsert.Contains(el.ColumnName));
+                var filteredModelUpdate = model.Columns.Where(el => colNamesUpdate.Contains(el.ColumnName));
+                var filteredModelDelete= model.Columns.Where(el => colNamesDelete.Contains(el.ColumnName));
+
+            }
+
+
+            //  SQLDatabase.CreateCommand(tableCreateString, System.Data.CommandType.Text);
+        }
+
         public static void CreateTrackingMechanism(TableModel model, string operation)
         {
-            var tableCreateString = GetCreateTableString(model);
-            var triggerCreateString = GetCreateTriggerString(model, operation);
 
-          //  SQLDatabase.CreateCommand(tableCreateString, System.Data.CommandType.Text);
-          //  SQLDatabase.CreateCommand(triggerCreateString, System.Data.CommandType.Text);
+            var triggerCreateString = GetCreateTriggerString(model, operation.ToUpper());
+
+
+          
+            SQLDatabase.CreateCommand(triggerCreateString, System.Data.CommandType.Text);
         }
 
         public static bool CheckTableExists(string tableName)
@@ -71,11 +157,6 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
             string query = string.Format(@"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{0}'", tableName);
 
             return SQLDatabase.ExecuteScalar<int>(query) > 0;
-        }
-
-        public static void CheckHistoryExists()
-        {
-
         }
 
         public static List<ColumnModel> CheckTableHistoryChanges(TableModel currentTable, TableModel newModel)

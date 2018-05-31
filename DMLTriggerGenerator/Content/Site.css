@@ -52,8 +52,8 @@ textarea {
 
 .panel.panel-default{
     max-height: 93%;
-    /*overflow: auto;*/
-    /*overflow-x: hidden;*/
+    overflow: hidden;
+    overflow-x: hidden;
 }
 
 #columns-body{
@@ -68,11 +68,22 @@ textarea {
     border-bottom: 2px #dddddd solid;
 }
 
-.column-data{
-    font-size: 16px;
+.text-bold{
     font-weight:bold;
+}
+
+.column-data{
+    font-size: 12px;
+}
+
+.column-title{
+    font-size: 16px;
 }
 
 #columns-panel-title{
     font-size: 20px;
+}
+
+.logout-fix{
+    margin-right: unset !important;
 }
