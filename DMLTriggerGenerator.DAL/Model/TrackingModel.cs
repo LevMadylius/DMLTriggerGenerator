@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DMLTriggerGenerator.DAL.Model
 {
-    public class TrackingColumn
+    public class TrackingColumn : IColumnModel
     {
         public string ColumnName { get; set; }
         public string Insert { get; set; }

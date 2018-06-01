@@ -5,6 +5,7 @@ using DMLTriggerGenerator.Utils;
 using DMLTriggerGenerator.Utils.Helpers;
 using System.Net;
 using System.Web.Mvc;
+using DMLTriggerGenerator.ViewModel;
 
 namespace DMLTriggerGenerator.Controllers
 {
@@ -33,9 +34,10 @@ namespace DMLTriggerGenerator.Controllers
         [Connected]
         public PartialViewResult GetColumns(string tableName)
         {
-            var columns = LoadData.GetTableModelByName(tableName);
-
-            return PartialView("_columns", columns.Columns);
+            var tableModel = LoadData.GetTableModelByName(tableName);
+            var trackingModel = LoadData.GetTrackingModelForTable(tableName);
+            var viewModel = ColumnsViewModelHelper.FormList(tableModel.Columns, (trackingModel != null)? trackingModel.Columns : null);
+            return PartialView("_columns", viewModel);
         }
     }
 }

@@ -11,10 +11,8 @@
 
         public static string DropTrigger(string triggerName)
         {
-            return $"IF OBJECT_ID ('{triggerName}', 'TR') IS NOT NULL  DROP TRIGGER {triggerName}; ";
+            return $"IF OBJECT_ID ('{triggerName}', 'TR') IS NOT NULL BEGIN  DROP TRIGGER {triggerName} END; ";
         }
-
-
 
         public static string GetColumsScript(string tableName, string columnNames)
         {
@@ -24,6 +22,12 @@
         public static string GetTransactionWrapper(string rawQuery, string tranName = "")
         {
             return $"BEGIN TRANSACTION [{tranName}] BEGIN TRY {rawQuery} COMMIT TRANSACTION [{tranName}] END TRY BEGIN CATCH ROLLBACK TRANSACTION [{tranName}] END CATCH GO;";
+        }
+
+        public static string SelectFromTableOperations(string tableName)
+        {
+            return $"SELECT COL_NAME, INSERTOPER, UPDATEOPER, DELETEOPER FROM {tableName}_OperationsStored";
+
         }
     }
 }

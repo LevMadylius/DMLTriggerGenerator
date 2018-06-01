@@ -15,18 +15,21 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
 
             builder.Append($"Performing operations with table: {model.TableName} {Environment.NewLine}");
             // if table does not exist
-            if(!TableOperations.CheckTableExists(model.TableName))
+            if (!TableOperations.CheckTableExists($"{model.TableName}_History{Environment.NewLine}"))
             {
-                builder.Append("Create tracking mechanism for:");
+                builder.Append($"Create tracking mechanism for:{Environment.NewLine}");
                 foreach(var el in operations)
                 {
-                    var resultArr = model.Columns.Where(m => string.Equals(m.ColumnName.ToUpper(), el.ToUpper()));
+                    //fix this stupid shitty bug
+                    var resultArr = model.Columns.Where(m => (m.Insert != null && string.Equals(m.Insert.ToUpper(), el.ToUpper())) ||
+                                                             (m.Update != null && string.Equals(m.Update.ToUpper(), el.ToUpper())) ||
+                                                             (m.Delete != null && string.Equals(m.Delete.ToUpper(), el.ToUpper()))).ToList();
                     if(resultArr != null && resultArr.Any())
                     {
-                        builder.Append(el);
+                        builder.Append($"{el}:{Environment.NewLine}");
                         foreach(var res in resultArr)
                         {
-                            builder.Append($"{res}, ");
+                            builder.Append($"{res.ColumnName}, ");
                         }
                         builder.Length -= 2;
                         builder.Append($"{Environment.NewLine}");

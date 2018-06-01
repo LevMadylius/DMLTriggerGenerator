@@ -13,6 +13,7 @@ namespace DMLTriggerGenerator.Controllers.Api
     public class GenerateController : ApiController
     {
         private static TrackingModel _trackingModel;
+        private static List<string> _userOperations;
 
         [HttpPost]
         [Route("Api/ProccessUserInfo/{tableName}")]
@@ -34,8 +35,23 @@ namespace DMLTriggerGenerator.Controllers.Api
 
             TrackingModel model = new TrackingModel { TableName = tableName, Columns = listColumns };
             _trackingModel = model;
+
+            string[] operations = new string[]
+            {
+                "INSERT",
+                "UPDATE",
+                "DELETE"
+            };
+            _userOperations = new List<string>();
+
+            foreach (var el in operations)
+            {
+                if (_trackingModel.Columns.Where(tm => string.Equals(el, tm.Insert) || string.Equals(el, tm.Update) || string.Equals(el, tm.Delete)).Count() > 0)
+                    _userOperations.Add(el);
+            }
         }
         [HttpPost]
+        [Route("Api/ClearTrackingModel")]
         public void ClearTrackingModel()
         {
             _trackingModel = null;
@@ -45,15 +61,19 @@ namespace DMLTriggerGenerator.Controllers.Api
         [Route("Api/GetTrackingInfo")]
         public string GetTrackingInfo()
         {
-            HttpContextSessionWrapper session = new HttpContextSessionWrapper();
-            var smth = session.ConnectionString;
-            var operations = _trackingModel.Columns.Where(el => el.Insert != null || el.Update != null || el.Delete != null).
-                                                    Select(el => el.Insert != null || el.Update != null || el.Delete != null);
-            var info = TrackingInfo.GetInfo(_trackingModel,null);
-
-            
+           
+            var info = TrackingInfo.GetInfo(_trackingModel, _userOperations.ToArray());
 
             return info;
         }
+
+        [HttpPost]
+        [Route("Api/GenerateTrackingMechanism")]
+        public void GenerateTrackingMechanism()
+        {
+            TableOperations.Tracking(_userOperations.ToArray(), _trackingModel);
+        }
+
+
     }
 }

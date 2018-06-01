@@ -50,29 +50,30 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
             return columnList;
         }
 
-        public static TableModel GetTableModelByName(TrackingModel trackingModel)
+        public static TrackingModel GetTrackingModelForTable(string tableName)
         {
-            var result = new TableModel();
-            result.TableName = trackingModel.TableName;
-            int tempCharMax = 0;
-
-            var listCols = trackingModel.Columns.Select(el => el.ColumnName).ToList();
-            var stringCols = TableOperations.ColumnSetFromInStatement(listCols);
-            var query = Scripts.GetColumsScript(trackingModel.TableName, stringCols);
-            var elements = SQLDatabase.ExecuteQuery(query);
-
-            List<ColumnModel> columnsList = new List<ColumnModel>();
-            foreach (DataRow row in elements.Rows)
+            if(!TableOperations.CheckTableExists($"{tableName}_OperationsStored"))
             {
-                columnsList.Add(new ColumnModel
+                return null;
+            }
+
+            var query = Scripts.SelectFromTableOperations(tableName);
+            var dataTable = SQLDatabase.ExecuteQuery(query, CommandType.Text);
+            var trackinColsList = new List<TrackingColumn>();
+
+            foreach(DataRow row in dataTable.Rows)
+            {
+                var test = row["INSERTOPER"].ToString();
+                trackinColsList.Add(new TrackingColumn
                 {
-                    ColumnName = row["COLUMN_NAME"].ToString(),
-                    DataType = row["DATA_TYPE"].ToString(),
-                    ISNullable = (string.Equals(row["IS_NULLABLE"].ToString(), "YES") ? Enums.IsNullable.YES : Enums.IsNullable.NO),
-                    CharacterMaxLength = int.TryParse(row["CHARACTER_MAXIMUM_LENGTH"].ToString(), out tempCharMax) ? tempCharMax : (int?)null
+                    
+                    ColumnName = row["COL_NAME"].ToString(),
+                    Insert = string.Equals(row["INSERTOPER"].ToString(), "True") ? "INSERT" : null,
+                    Update = string.Equals(row["UPDATEOPER"].ToString(), "True") ? "UPDATE" : null,
+                    Delete = string.Equals(row["DELETEOPER"].ToString(), "True") ? "DELETE" : null 
                 });
             }
-            return new TableModel { TableName = trackingModel.TableName, Columns = columnsList };
+            return new TrackingModel { TableName = tableName, Columns = trackinColsList };
         }
     }
 }

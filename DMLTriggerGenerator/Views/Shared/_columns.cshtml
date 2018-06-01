@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DMLTriggerGenerator.DAL.Model.ColumnModel>
+﻿@model List<DMLTriggerGenerator.ViewModel.ColumnsViewModelElement>
 @Styles.Render("~/Content/css")
 @{
     ViewBag.Title = "_columns";
@@ -8,7 +8,7 @@
 		{
 			<li class="li-styling column-element">
 				<div>
-					<p class="text-bold column-title">@col.ColumnName</p>
+					<p class="text-bold text-big" id="column-title">@col.ColumnName</p>
 					<p class="column-data">					
 						@col.DataType.ToUpper()
 		
@@ -16,9 +16,9 @@
 						@(col.ISNullable == DMLTriggerGenerator.DAL.Enums.IsNullable.YES ? "NULL" : "NOT NULL" )
 					</p>
 				</div>
-					<label class="checkbox-inline"><input type="checkbox" name="Insert" value="Insert">Insert</label>
-					<label class="checkbox-inline"><input type="checkbox" name="Update" value="Update">Update</label>
-					<label class="checkbox-inline"><input type="checkbox" name="Delete" value="Delete">Delete</label>
+					<label class="checkbox-inline"><input type="checkbox" name="Insert" @((col.Insert)? "checked": "") value="Insert">Insert</label>
+					<label class="checkbox-inline"><input type="checkbox" name="Update" @((col.Update)? "checked": "") value="Update">Update</label>
+					<label class="checkbox-inline"><input type="checkbox" name="Delete" @((col.Delete)? "checked": "") value="Delete">Delete</label>
 			</li>
 					}
 	</ul>

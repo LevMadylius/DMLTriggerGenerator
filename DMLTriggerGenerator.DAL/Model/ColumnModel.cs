@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DMLTriggerGenerator.DAL.Model
 {
-    public class ColumnModel
+    public class ColumnModel: IColumnModel
     {
         public string ColumnName { get; set; }
         public string DataType { get; set; }
