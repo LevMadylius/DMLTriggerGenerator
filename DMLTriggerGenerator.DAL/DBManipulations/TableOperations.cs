@@ -175,17 +175,17 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
                 var colNamesDelete = trackingModel.Columns.Where(el => el.Delete != null)
                                                     .Select(el => el).ToList();
 
-                if (colNamesInsert != null || colNamesInsert.Count > 0)
+                if (colNamesInsert != null && colNamesInsert.Count > 0)
                 {
-                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesInsert }, "INSERT", false);
+                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesInsert }, "INSERT");
                 }
-                if (colNamesUpdate != null || colNamesUpdate.Count > 0)
+                if (colNamesUpdate != null && colNamesUpdate.Count > 0)
                 {
-                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesUpdate }, "UPDATE", false);
+                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesUpdate }, "UPDATE");
                 }
-                if (colNamesDelete != null || colNamesDelete.Count > 0)
+                if (colNamesDelete != null && colNamesDelete.Count > 0)
                 {
-                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesDelete }, "DELETE", false);
+                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesDelete }, "DELETE");
                 }
                 SQLDatabase.CreateCommand(updateString);
             }
@@ -203,15 +203,15 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
 
                 if (colNamesInsert != null && colNamesInsert.Count > 0)
                 {
-                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesInsert }, "INSERT", true);
+                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesInsert }, "INSERT");
                 }
                 if (colNamesUpdate != null && colNamesUpdate.Count > 0)
                 {
-                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesUpdate }, "UPDATE", true);
+                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesUpdate }, "UPDATE");
                 }
                 if (colNamesDelete != null && colNamesDelete.Count > 0)
                 {
-                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesDelete }, "DELETE", true);
+                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesDelete }, "DELETE");
                 }
                 SQLDatabase.CreateCommand(resetString);
                 SQLDatabase.CreateCommand(updateString);
@@ -219,10 +219,12 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
             }
         }
 
-        public static void CreateTrackingMechanism(TrackingModel model, string operation, bool alter)
+        public static void CreateTrackingMechanism(TrackingModel model, string operation)
         {
+            bool triggerExists = CheckTriggerExists($"{model.TableName}{operation}Triggger");
 
-            var triggerCreateString = GetCreateTriggerString(model, operation.ToUpper(), alter);
+
+            var triggerCreateString = GetCreateTriggerString(model, operation.ToUpper(), triggerExists);
           
             SQLDatabase.CreateCommand(triggerCreateString, System.Data.CommandType.Text);
         }
@@ -230,6 +232,13 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
         public static bool CheckTableExists(string tableName)
         {
             string query = string.Format(@"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{0}'", tableName);
+
+            return SQLDatabase.ExecuteScalar<int>(query) > 0;
+        }
+
+        public static bool CheckTriggerExists(string triggerName)
+        {
+            string query = string.Format($"SELECT COUNT(*) FROM sys.triggers WHERE object_id = OBJECT_ID('{triggerName}')");
 
             return SQLDatabase.ExecuteScalar<int>(query) > 0;
         }
