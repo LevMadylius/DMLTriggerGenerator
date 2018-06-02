@@ -70,10 +70,18 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
                     ColumnName = row["COL_NAME"].ToString(),
                     Insert = string.Equals(row["INSERTOPER"].ToString(), "True") ? "INSERT" : null,
                     Update = string.Equals(row["UPDATEOPER"].ToString(), "True") ? "UPDATE" : null,
-                    Delete = string.Equals(row["DELETEOPER"].ToString(), "True") ? "DELETE" : null 
+                    Delete = string.Equals(row["DELETEOPER"].ToString(), "True")? "DELETE" : null 
                 });
             }
             return new TrackingModel { TableName = tableName, Columns = trackinColsList };
+        }
+
+        public static TrackingModel GetNewTrackingModel(string tableName)
+        {
+            var cols = GetAllColumnsNamesFromTable(tableName);
+            List<TrackingColumn> columns = cols.Select(el => new TrackingColumn { ColumnName = el }).ToList();
+
+            return new TrackingModel { TableName = tableName, Columns = columns };
         }
     }
 }

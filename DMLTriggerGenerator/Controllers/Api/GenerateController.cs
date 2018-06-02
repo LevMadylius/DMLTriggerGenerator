@@ -19,10 +19,8 @@ namespace DMLTriggerGenerator.Controllers.Api
         [Route("Api/ProccessUserInfo/{tableName}")]
         public void ProccessUserInfo([FromBody]string[][] data, string tableName)
         {
-            IEnumerable<string[]> sortedArr = data.Where(el => el.Length > 1);
-
             List<TrackingColumn> listColumns = new List<TrackingColumn>();
-            foreach(var el in sortedArr)
+            foreach(var el in data)
             {
                 listColumns.Add(new TrackingColumn()
                 {

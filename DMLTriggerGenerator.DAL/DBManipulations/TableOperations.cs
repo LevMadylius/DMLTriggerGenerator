@@ -56,10 +56,10 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
             return builder.ToString();
         }
         // for creating of altering trigger
-        private static string GetCreateTriggerString(TrackingModel trackingModel, string operation)
+        private static string GetCreateTriggerString(TrackingModel trackingModel, string operation, bool alter)
         {
             StringBuilder builder = new StringBuilder();
-            builder.Append($"CREATE TRIGGER {trackingModel.TableName}{operation}Triggger ");
+            builder.Append($"{(alter? "ALTER": "CREATE")} TRIGGER {trackingModel.TableName}{operation}Triggger ");
             builder.Append($"ON {trackingModel.TableName} ");
             builder.Append($"AFTER {operation.ToUpper()} ");
             builder.Append($"AS BEGIN ");
@@ -119,10 +119,20 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
             StringBuilder builder = new StringBuilder();
             foreach(var el in trackingModel.Columns)
             {
-                builder.Append($"UPDATE {trackingModel.TableName}_OperationsStored");
-                builder.Append($"SET INSERTOPER={((el.Insert != null) ? "1" : "0")}, UPDATEOPER={((el.Update != null) ? "1" : "0")}, DELETEOPER = {((el.Delete != null) ? "1" : "0")}");
-                builder.Append($"WHERE COL_NAME={el.ColumnName} ");
+                builder.Append($"UPDATE {trackingModel.TableName}_OperationsStored ");
+                builder.Append($"SET INSERTOPER={((el.Insert != null) ? "1" : "0")}, UPDATEOPER={((el.Update != null) ? "1" : "0")}, DELETEOPER = {((el.Delete != null) ? "1" : "0")} ");
+                builder.Append($"WHERE COL_NAME='{el.ColumnName}'");
             }
+            return builder.ToString();
+        }
+
+        public static string ResetTrackingValues(TrackingModel trackingModel)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            builder.Append($"UPDATE {trackingModel.TableName}_OperationsStored ");
+            builder.Append("SET INSERTOPER='0', UPDATEOPER='0', DELETEOPER = '0' ");
+
             return builder.ToString();
         }
 
@@ -137,7 +147,7 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
             var filteredList = operations.Where(el => TrOperations.Contains(el)).ToList();
             var rejectList = TrOperations.Except(filteredList).ToList();
 
-            if(rejectList != null && rejectList.Any())
+            if(rejectList != null && rejectList.Count > 0)
             {
                 foreach(var el in rejectList)
                 {
@@ -149,63 +159,70 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
             {
                 var tableOperationsCreateString = GetTableOpertationsString(model);
                 var tableHistoryCreateString = GetCreateTableString(model);
-                var insertQuery = InsertTrackingValues(trackingModel);
+                var insertQuery = InsertTrackingValues(LoadData.GetNewTrackingModel(trackingModel.TableName));
+                var updateString = UpdateTrackingValues(trackingModel);
 
                 SQLDatabase.CreateCommand(tableOperationsCreateString);
                 SQLDatabase.CreateCommand(tableHistoryCreateString);
                 SQLDatabase.CreateCommand(insertQuery);
+                
+
 
                 var colNamesInsert = trackingModel.Columns.Where(el => el.Insert != null)
-                                    .Select(el => el);
+                                    .Select(el => el).ToList();
                 var colNamesUpdate = trackingModel.Columns.Where(el => el.Update != null)
-                                                    .Select(el => el);
+                                                    .Select(el => el).ToList();
                 var colNamesDelete = trackingModel.Columns.Where(el => el.Delete != null)
-                                                    .Select(el => el);
+                                                    .Select(el => el).ToList();
 
-                if (colNamesInsert != null || colNamesInsert.Any())
+                if (colNamesInsert != null || colNamesInsert.Count > 0)
                 {
-                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesInsert.ToList() }, "INSERT");
+                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesInsert }, "INSERT", false);
                 }
-                if (colNamesUpdate != null || colNamesUpdate.Any())
+                if (colNamesUpdate != null || colNamesUpdate.Count > 0)
                 {
-                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesUpdate.ToList() }, "UPDATE");
+                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesUpdate }, "UPDATE", false);
                 }
-                if (colNamesDelete != null || colNamesDelete.Any())
+                if (colNamesDelete != null || colNamesDelete.Count > 0)
                 {
-                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesDelete.ToList() }, "DELETE");
+                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesDelete }, "DELETE", false);
                 }
+                SQLDatabase.CreateCommand(updateString);
             }
             else
             {
-                UpdateTrackingValues(trackingModel);
+                var resetString = ResetTrackingValues(trackingModel);
+                var updateString = UpdateTrackingValues(trackingModel);
                 var colNamesInsert = trackingModel.Columns.Where(el => el.Insert != null)
-                                                    .Select(el => el);
+                                                    .Select(el => el).ToList();
                 var colNamesUpdate = trackingModel.Columns.Where(el => el.Update != null)
-                                                    .Select(el => el);
+                                                    .Select(el => el).ToList();
                 var colNamesDelete = trackingModel.Columns.Where(el => el.Delete != null)
-                                                    .Select(el => el);
+                                                    .Select(el => el).ToList();
 
 
-                if (colNamesInsert != null || colNamesInsert.Any())
+                if (colNamesInsert != null && colNamesInsert.Count > 0)
                 {
-                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesInsert.ToList() }, "INSERT");
+                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesInsert }, "INSERT", true);
                 }
-                if (colNamesUpdate != null || colNamesUpdate.Any())
+                if (colNamesUpdate != null && colNamesUpdate.Count > 0)
                 {
-                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesUpdate.ToList() }, "UPDATE");
+                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesUpdate }, "UPDATE", true);
                 }
-                if (colNamesDelete != null || colNamesDelete.Any())
+                if (colNamesDelete != null && colNamesDelete.Count > 0)
                 {
-                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesDelete.ToList() }, "DELETE");
+                    CreateTrackingMechanism(new TrackingModel { TableName = trackingModel.TableName, Columns = colNamesDelete }, "DELETE", true);
                 }
+                SQLDatabase.CreateCommand(resetString);
+                SQLDatabase.CreateCommand(updateString);
 
             }
         }
 
-        public static void CreateTrackingMechanism(TrackingModel model, string operation)
+        public static void CreateTrackingMechanism(TrackingModel model, string operation, bool alter)
         {
 
-            var triggerCreateString = GetCreateTriggerString(model, operation.ToUpper());
+            var triggerCreateString = GetCreateTriggerString(model, operation.ToUpper(), alter);
           
             SQLDatabase.CreateCommand(triggerCreateString, System.Data.CommandType.Text);
         }

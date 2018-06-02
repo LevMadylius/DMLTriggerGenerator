@@ -2,7 +2,7 @@
 {
     public static class Scripts
     {
-        public static readonly string GetTablesNamesScript = "SELECT TABLE_NAME AS TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME";
+        public static readonly string GetTablesNamesScript = "SELECT TABLE_NAME AS TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND ((TABLE_NAME NOT LIKE '%_History') AND (TABLE_NAME NOT LIKE '%_OperationsStored')) ORDER BY TABLE_NAME";
         public static readonly string DefaultTransactionName = "DMLTriggerTransaction";
         public static string GetColumsScript(string tableName)
         {
@@ -29,5 +29,6 @@
             return $"SELECT COL_NAME, INSERTOPER, UPDATEOPER, DELETEOPER FROM {tableName}_OperationsStored";
 
         }
+
     }
 }

@@ -17,7 +17,7 @@ namespace DMLTriggerGenerator.ViewModel
         public static List<ColumnsViewModelElement> FormList(List<ColumnModel> colsList, List<TrackingColumn> trackingList)
         {
             var resultList = new List<ColumnsViewModelElement>();
-            if (trackingList == null || !trackingList.Any())
+            if (trackingList == null || trackingList.Count == 0)
             {
                 resultList = colsList.Select(el => new ColumnsViewModelElement
                 {

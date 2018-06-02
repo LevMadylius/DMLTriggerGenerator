@@ -21,6 +21,7 @@
 
     $('#btn-Confirm').on('click', function () {
         debugger
+        proccessInfo();
         $.ajax({
             url: '/Api/GenerateTrackingMechanism/',
             type: 'post',
@@ -68,13 +69,8 @@
         });
     };
 
-    $("#GenerateTrigger").click(function () {
-
-
-    });
 
     $('#list-tables li').on('click', function () {
-        debugger
         $('#list-tables .active').removeClass("active");
         $(this).addClass("active");
         selectedTable = $("a", this).text();
