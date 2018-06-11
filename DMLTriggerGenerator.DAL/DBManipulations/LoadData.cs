@@ -63,10 +63,8 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
 
             foreach(DataRow row in dataTable.Rows)
             {
-                var test = row["INSERTOPER"].ToString();
                 trackinColsList.Add(new TrackingColumn
-                {
-                    
+                {           
                     ColumnName = row["COL_NAME"].ToString(),
                     Insert = string.Equals(row["INSERTOPER"].ToString(), "True") ? "INSERT" : null,
                     Update = string.Equals(row["UPDATEOPER"].ToString(), "True") ? "UPDATE" : null,
@@ -82,6 +80,23 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
             List<TrackingColumn> columns = cols.Select(el => new TrackingColumn { ColumnName = el }).ToList();
 
             return new TrackingModel { TableName = tableName, Columns = columns };
+        }
+
+        public static List<TriggerModel> GetListTriggers(string tableName)
+        {
+            var query = Scripts.GetTriggersForTable(tableName);
+            var dataTable = SQLDatabase.ExecuteQuery(query, CommandType.Text);
+            var triggerList = new List<TriggerModel>();
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                triggerList.Add(new TriggerModel
+                {
+                    Name = row["TriggerName"].ToString(),
+                    IsDisabled = Convert.ToBoolean(row["is_disabled"])
+                });
+            }
+            return triggerList;
         }
     }
 }

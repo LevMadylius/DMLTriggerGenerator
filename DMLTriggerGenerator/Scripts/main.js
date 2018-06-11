@@ -2,6 +2,7 @@
 
     var selectedTable;
 
+
     var showInfoString = function (data) {
         var splitted = data.split(/\n/);
         $.each(splitted, function (index, value) {
@@ -10,7 +11,6 @@
     }
 
     $('#GenerateModal').on('hidden.bs.modal', function () {
-        debugger
         $.ajax({
             url: '/Api/ClearTrackingModel/',
             type: 'post',
@@ -20,7 +20,6 @@
     })
 
     $('#btn-Confirm').on('click', function () {
-        debugger
         proccessInfo();
         $.ajax({
             url: '/Api/GenerateTrackingMechanism/',
@@ -30,6 +29,7 @@
             }
         });
     });
+
 
     var proccessInfo = function () {
         
@@ -60,8 +60,6 @@
                     url: '/Api/GetTrackingInfo',
                     type: 'get',
                     success: function (data) {
-                        debugger
-                        console.log(data);
                         showInfoString(data);
                     }
                 });
@@ -79,7 +77,7 @@
     $('#GenerateModal').on('show.bs.modal', function (e) {
         debugger
         proccessInfo()
-
+        var smth = $('#insertAll');
         //_.defer(function () {
             
         //});

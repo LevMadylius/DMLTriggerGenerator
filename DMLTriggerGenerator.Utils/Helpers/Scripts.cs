@@ -14,6 +14,16 @@
             return $"IF OBJECT_ID ('{triggerName}', 'TR') IS NOT NULL BEGIN  DROP TRIGGER {triggerName} END; ";
         }
 
+        public static string GetTriggersForTable(string tableName)
+        {
+            return $"SELECT OBJECT_NAME(object_id) as TriggerName, is_disabled FROM sys.triggers WHERE OBJECT_NAME(parent_id) = '{tableName}'";
+        }
+
+        public static string GetTriggerStateQuery(string tableName, string triggerName, bool isDisabled)
+        {
+            return $"{(isDisabled? "DISABLE": "ENABLE")} TRIGGER {triggerName} ON {tableName}";
+        }
+
         public static string GetColumsScript(string tableName, string columnNames)
         {
             return $"SELECT cols.COLUMN_NAME, cols.IS_NULLABLE, cols.DATA_TYPE, cols.CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS cols WHERE TABLE_NAME = '{tableName}' AND COLUMN_NAME IN {columnNames} ORDER BY cols.TABLE_NAME";

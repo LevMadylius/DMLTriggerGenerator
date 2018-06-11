@@ -57,6 +57,11 @@ textarea {
     overflow-x: hidden;
 }
 
+.columns-header{
+    padding-left: 40px;
+    border-bottom: 4px #dddddd solid;
+}
+
 .column-element{
     padding-top: 10px;
     padding-bottom: 10px;

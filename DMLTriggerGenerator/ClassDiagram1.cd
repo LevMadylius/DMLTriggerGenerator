@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DMLTriggerGenerator.DAL.DBManipulations.LoadData">
+    <Position X="16.75" Y="1" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DMLTriggerGenerator.DAL.DBManipulations.SQLDatabase">
+    <Position X="18.5" Y="1" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DMLTriggerGenerator.DAL.DBManipulations.TableOperations">
+    <Position X="20.25" Y="1" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DMLTriggerGenerator.DAL.DBManipulations.TrackingInfo">
+    <Position X="10.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DMLTriggerGenerator.DAL.Model.ColumnModel" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DMLTriggerGenerator.DAL.Model.ConnectionString">
+    <Position X="18.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DMLTriggerGenerator.DAL.Model.TableModel">
+    <Position X="8.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DMLTriggerGenerator.DAL.Model.TrackingColumn" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DMLTriggerGenerator.DAL.Model.TrackingModel">
+    <Position X="8.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DMLTriggerGenerator.Utils.CustomExceptions.ConnectionStringInvalidException">
+    <Position X="4.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DMLTriggerGenerator.Utils.Helpers.DbTypeConverter">
+    <Position X="6.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DMLTriggerGenerator.Utils.Helpers.Scripts">
+    <Position X="6.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DMLTriggerGenerator.Utils.HttpContextSessionWrapper">
+    <Position X="4.5" Y="2" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DMLTriggerGenerator.ViewModel.ColumnsViewModelElement">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModel\ColumnsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DMLTriggerGenerator.ViewModel.ColumnsViewModelHelper">
+    <Position X="10.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModel\ColumnsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DMLTriggerGenerator.Controllers.ConnectionController">
+    <Position X="14.5" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAECAAAAAAA=</HashCode>
+      <FileName>Controllers\ConnectionController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DMLTriggerGenerator.Controllers.HomeController">
+    <Position X="12.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIECAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DMLTriggerGenerator.Controllers.ValuesController">
+    <Position X="15.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAACAEAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Controllers\ValuesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DMLTriggerGenerator.Controllers.Api.GenerateController">
+    <Position X="12.75" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABQAAAQAAAAACAAAAAQAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Api\GenerateController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="DMLTriggerGenerator.DAL.Model.IColumnModel">
+    <Position X="10.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Enum Name="DMLTriggerGenerator.DAL.Enums.IsNullable" Collapsed="true">
+    <Position X="10.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier />
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

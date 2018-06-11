@@ -45,12 +45,14 @@
     <Compile Include="DBManipulations\LoadData.cs" />
     <Compile Include="DBManipulations\SQLDatabase.cs" />
     <Compile Include="DBManipulations\TrackingInfo.cs" />
+    <Compile Include="DBManipulations\TriggerOperations.cs" />
     <Compile Include="Enums\IsNullable.cs" />
     <Compile Include="Model\ColumnModel.cs" />
     <Compile Include="Model\ConnectionString.cs" />
     <Compile Include="Model\IColumnModel.cs" />
     <Compile Include="Model\TableModel.cs" />
     <Compile Include="Model\TrackingModel.cs" />
+    <Compile Include="Model\TriggerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

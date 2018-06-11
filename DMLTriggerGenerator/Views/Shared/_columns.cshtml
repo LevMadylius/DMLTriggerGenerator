@@ -1,26 +1,47 @@
-﻿@model List<DMLTriggerGenerator.ViewModel.ColumnsViewModelElement>
+﻿@model DMLTriggerGenerator.ViewModel.ColumnsViewModel
 @Styles.Render("~/Content/css")
+@Scripts.Render("~/Scripts/columns.js")
 @{
-    ViewBag.Title = "_columns";
+	ViewBag.Title = "_columns";
 }
-	<ul id="listClolumns">
-		@foreach (var col in Model)
+<div class="col-sm-12 columns-header">
+	@if (Model.Triggers.Count > 0)
+	{
+		<p class="text-bold text-big">Triggers:</p>
+		for (int i = 0; i < Model.Triggers.Count; i++)
 		{
-			<li class="li-styling column-element">
-				<div>
-					<p class="text-bold text-big" id="column-title">@col.ColumnName</p>
-					<p class="column-data">					
-						@col.DataType.ToUpper()
-		
-						@((col.CharacterMaxLength != null) ? $"({col.CharacterMaxLength})" : "")
-						@(col.ISNullable == DMLTriggerGenerator.DAL.Enums.IsNullable.YES ? "NULL" : "NOT NULL" )
-					</p>
-				</div>
-					<label class="checkbox-inline"><input type="checkbox" name="Insert" @((col.Insert)? "checked": "") value="Insert">Insert</label>
-					<label class="checkbox-inline"><input type="checkbox" name="Update" @((col.Update)? "checked": "") value="Update">Update</label>
-					<label class="checkbox-inline"><input type="checkbox" name="Delete" @((col.Delete)? "checked": "") value="Delete">Delete</label>
-			</li>
-					}
-	</ul>
+			var temp = Model.Triggers[i].Name;
+			<label class="checkbox-inline"><input type="checkbox" class="trigger" @(Model.Triggers[i].IsDisabled ? "" : "checked") value="@temp">@temp</label>
+		}
+	}
+
+	<p class="text-bold text-big">Select all</p>
+	<div>
+		<label class="checkbox-inline"><input type="checkbox" name="insertAll" id="insertAll" value="Insert">Insert</label>
+		<label class="checkbox-inline"><input type="checkbox" name="Update" id="updateAll" value="Update">Update</label>
+		<label class="checkbox-inline"><input type="checkbox" name="Delete" id="deleteAll" value="Delete">Delete</label>
+	</div>
+</div>
+
+
+<ul id="listClolumns">
+	@foreach (var col in Model.ColumnsElements)
+	{
+		<li class="li-styling column-element">
+			<div>
+				<p class="text-bold text-big" id="column-title">@col.ColumnName</p>
+				<p class="column-data">
+					@col.DataType.ToUpper()
+
+					@((col.CharacterMaxLength != null) ? $"({col.CharacterMaxLength})" : "")
+					@(col.ISNullable == DMLTriggerGenerator.DAL.Enums.IsNullable.YES ? "NULL" : "NOT NULL" )
+				</p>
+			</div>
+			<label class="checkbox-inline"><input type="checkbox" name="Insert" @((col.Insert) ? "checked" : "") value="Insert">Insert</label>
+			<label class="checkbox-inline"><input type="checkbox" name="Update" @((col.Update) ? "checked" : "") value="Update">Update</label>
+			<label class="checkbox-inline"><input type="checkbox" name="Delete" @((col.Delete) ? "checked" : "") value="Delete">Delete</label>
+		</li>
+	}
+</ul>
 
 

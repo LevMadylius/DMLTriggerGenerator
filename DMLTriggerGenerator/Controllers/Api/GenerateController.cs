@@ -72,6 +72,12 @@ namespace DMLTriggerGenerator.Controllers.Api
             TableOperations.Tracking(_userOperations.ToArray(), _trackingModel);
         }
 
-
+        [HttpPost]
+        [Route("Api/SetTriggerState/{tableName}")]
+        public void SetTriggerState([FromBody]TriggerModel triggerModel, string tableName)
+        {
+            TriggerOperations.SetTriggerState(triggerModel, tableName);
+            //TableOperations.Tracking(_userOperations.ToArray(), _trackingModel);
+        }
     }
 }

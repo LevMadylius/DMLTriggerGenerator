@@ -5,7 +5,13 @@ using System.Web;
 using DMLTriggerGenerator.DAL.Model;
 namespace DMLTriggerGenerator.ViewModel
 {
-    public class ColumnsViewModelElement: ColumnModel
+
+    public class ColumnsViewModel
+    {
+        public List<ColumnsElementViewModel> ColumnsElements { get; set; }
+        public List<TriggerModel> Triggers { get; set; }
+    }
+    public class ColumnsElementViewModel : ColumnModel
     {
         public bool Insert { get; set; }
         public bool Update { get; set; }
@@ -14,12 +20,12 @@ namespace DMLTriggerGenerator.ViewModel
 
     public static class ColumnsViewModelHelper
     {
-        public static List<ColumnsViewModelElement> FormList(List<ColumnModel> colsList, List<TrackingColumn> trackingList)
+        public static List<ColumnsElementViewModel> FormList(List<ColumnModel> colsList, List<TrackingColumn> trackingList)
         {
-            var resultList = new List<ColumnsViewModelElement>();
+            var resultList = new List<ColumnsElementViewModel>();
             if (trackingList == null || trackingList.Count == 0)
             {
-                resultList = colsList.Select(el => new ColumnsViewModelElement
+                resultList = colsList.Select(el => new ColumnsElementViewModel
                 {
                     ColumnName = el.ColumnName,
                     DataType = el.DataType,
@@ -36,7 +42,7 @@ namespace DMLTriggerGenerator.ViewModel
                 foreach (var col in colsList)
                 {
                     var test = trackingList.Where(el => string.Equals(el.ColumnName, col.ColumnName)).Select(el => el.Insert != null).SingleOrDefault();
-                    resultList.Add(new ColumnsViewModelElement
+                    resultList.Add(new ColumnsElementViewModel
                     {                       
                         ColumnName = col.ColumnName,
                         CharacterMaxLength = col.CharacterMaxLength,

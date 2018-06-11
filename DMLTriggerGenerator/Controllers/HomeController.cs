@@ -36,8 +36,9 @@ namespace DMLTriggerGenerator.Controllers
         {
             var tableModel = LoadData.GetTableModelByName(tableName);
             var trackingModel = LoadData.GetTrackingModelForTable(tableName);
-            var viewModel = ColumnsViewModelHelper.FormList(tableModel.Columns, (trackingModel != null)? trackingModel.Columns : null);
-            return PartialView("_columns", viewModel);
+            var columnsViewModel = ColumnsViewModelHelper.FormList(tableModel.Columns, (trackingModel != null)? trackingModel.Columns : null);
+            var triggerList = LoadData.GetListTriggers(tableName);
+            return PartialView("_columns", new ColumnsViewModel { ColumnsElements = columnsViewModel, Triggers = triggerList});
         }
     }
 }
