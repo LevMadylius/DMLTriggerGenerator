@@ -11,8 +11,13 @@ namespace DMLTriggerGenerator.Attributes
             base.OnActionExecuting(filterContext);
 
             var sessionWrapper = new HttpContextSessionWrapper();
-           
-            if(!SQLDatabase.VerifyConnectivity(sessionWrapper.ConnectionString))
+
+            if (sessionWrapper.ConnectionString == null)
+            {
+                filterContext.Result = new RedirectResult("~/Connection");
+            }
+
+            if (!SQLDatabase.VerifyConnectivity(sessionWrapper.ConnectionString))
             {
                 filterContext.Result = new RedirectResult("~/Connection");
             }
