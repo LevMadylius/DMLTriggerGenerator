@@ -11,6 +11,14 @@ namespace DMLTriggerGenerator.Controllers
 {
     public class HistoryController : Controller
     {
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            filterContext.ExceptionHandled = true;
+            filterContext.Result = new ViewResult
+            {
+                ViewName = "~/Views/Error.cshtml"
+            };
+        }
         // GET: History
         [Connected]
         public ActionResult Index()

@@ -9,6 +9,15 @@ namespace DMLTriggerGenerator.Controllers
 {
     public class ConnectionController : Controller
     {
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            filterContext.ExceptionHandled = true;
+            filterContext.Result = new ViewResult
+            {
+                ViewName = "~/Views/Error.cshtml"
+            };
+        }
+
         private HttpContextSessionWrapper _sessionWrapper = new HttpContextSessionWrapper();
 
         // GET: Connection

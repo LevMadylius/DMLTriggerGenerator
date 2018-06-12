@@ -11,6 +11,15 @@ namespace DMLTriggerGenerator.Controllers
 {
     public class HomeController : Controller
     {
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            filterContext.ExceptionHandled = true;
+            filterContext.Result = new ViewResult
+            {
+                ViewName = "~/Views/Error.cshtml"
+            };
+        }
+
         private HttpContextSessionWrapper _sessionWrapper;
 
         public HomeController()
