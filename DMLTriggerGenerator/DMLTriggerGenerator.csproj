@@ -237,6 +237,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\GenerateController.cs" />
     <Compile Include="Controllers\ConnectionController.cs" />
+    <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -250,6 +251,7 @@
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\ColumnsViewModel.cs" />
+    <Compile Include="ViewModel\HistoryViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -319,7 +321,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_columns.cshtml" />
     <Content Include="Views\Connection\Index.cshtml" />
-    <Content Include="Views\Connection\Connect.cshtml" />
+    <Content Include="Views\Connection\ConnectionError.cshtml" />
+    <Content Include="Views\History\Index.cshtml" />
+    <Content Include="Views\Shared\_records.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

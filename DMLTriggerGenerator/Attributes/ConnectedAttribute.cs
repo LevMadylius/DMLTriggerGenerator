@@ -1,4 +1,5 @@
-﻿using DMLTriggerGenerator.Utils;
+﻿using DMLTriggerGenerator.DAL.DBManipulations;
+using DMLTriggerGenerator.Utils;
 using System.Web.Mvc;
 
 namespace DMLTriggerGenerator.Attributes
@@ -11,7 +12,7 @@ namespace DMLTriggerGenerator.Attributes
 
             var sessionWrapper = new HttpContextSessionWrapper();
            
-            if(sessionWrapper.ConnectionString == null)
+            if(!SQLDatabase.VerifyConnectivity(sessionWrapper.ConnectionString))
             {
                 filterContext.Result = new RedirectResult("~/Connection");
             }

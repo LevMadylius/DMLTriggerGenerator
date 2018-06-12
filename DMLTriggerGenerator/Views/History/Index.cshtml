@@ -1,0 +1,70 @@
+﻿@model List<string>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Main Page</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	@Scripts.Render("~/Scripts/main.js")
+	@Scripts.Render("~/Scripts/underscore.js")
+
+	@*@Scripts.Render("~/bundles/jquery")*@
+	<style>
+		/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+		.row.content {
+			height: 550px;
+		}
+
+		/* Set gray background color and 100% height */
+		.sidenav {
+			background-color: #f1f1f1;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row content">
+			<div class="col-sm-3 sidenav">
+				<h2>Table names</h2>
+				<ul class="nav nav-pills nav-stacked" id="list-tables">
+					@{if (Model != null && Model.Count > 0)
+						{
+							foreach (var name in Model)
+							{
+								<li class="li-styling">
+									@Ajax.ActionLink(name,
+								   "GetRecords",
+								   new { tableName = name },
+								   new AjaxOptions()
+								   {
+									   UpdateTargetId = "history-body",
+									   InsertionMode = InsertionMode.Replace,
+									   HttpMethod = "GET"
+								   })
+								</li>
+							}
+						}
+					}
+				</ul><br>
+			</div>
+			<br>
+			<div class="col-sm-9">
+				<div class="row content">
+					<div class="column-section">
+						<div class="panel panel-default">
+							<div class="panel-heading clearfix">
+								<div id="columns-panel-title" class="panel-title pull-left">Records stored</div>
+							</div>
+							<div class="panel-body" id="history-body">
+								@*history*@
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

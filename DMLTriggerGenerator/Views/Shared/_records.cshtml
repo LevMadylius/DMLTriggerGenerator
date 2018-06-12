@@ -1,0 +1,27 @@
+﻿@model DMLTriggerGenerator.ViewModel.HistoryViewModel
+<div style="overflow-x:auto;overflow-y:auto;">
+	<table class="table table-striped">
+		<thead>
+			@if (Model.ColumnNames != null && Model.ColumnNames.Count > 0)
+			{
+				<tr>
+					@foreach (var col in Model.ColumnNames)
+					{
+						<th>@col</th>
+					}
+				</tr>
+			}
+		</thead>
+		<tbody>
+			@foreach(var col in Model.Records)
+			{
+				<tr>
+					@foreach(var val in col.RecordValues)
+					{
+						<td>@val</td>
+					}
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

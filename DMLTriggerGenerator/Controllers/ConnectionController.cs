@@ -21,23 +21,15 @@ namespace DMLTriggerGenerator.Controllers
         [HttpPost]
         public ActionResult Connect(ConnectionString connectionString)
         {
-            try
+            _sessionWrapper.ConnectionString = connectionString.GetConnectionString();
+            if(SQLDatabase.VerifyConnectivity(_sessionWrapper.ConnectionString))
             {
-                _sessionWrapper.ConnectionString = connectionString.GetConnectionString();
-                SQLDatabase.VerifyConnectivity(_sessionWrapper.ConnectionString);
                 return RedirectToAction("Index", "Home");
             }
-            //improve
-            catch (ConnectionStringInvalidException ex)
+            else
             {
-                return View();
+                return View("ConnectionError");
             }
-            catch(Exception ex)
-            {
-                return View();
-            }
-
-          //  return View();
         }
     }
 }

@@ -16,6 +16,33 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
             return DbTypeConverter.TablesNamesFromDataTable(SQLDatabase.ExecuteQuery(Scripts.GetTablesNamesScript));
         }
 
+        public static List<string> GetHistoryTables()
+        {
+            return DbTypeConverter.TablesNamesFromDataTable(SQLDatabase.ExecuteQuery(Scripts.GetHistoryTables()));
+        }
+
+        public static List<RecordModel> GetRecordsForTable(string tableName)
+        {
+            var cols = GetAllColumnsNamesFromTable(tableName);
+
+            var query = Scripts.GetRecordsForTable(tableName, cols);
+            var dataTable = SQLDatabase.ExecuteQuery(query, CommandType.Text);
+            List<RecordModel> model = new List<RecordModel>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                RecordModel record = new RecordModel();
+                record.RecordValues = new List<string>();
+                foreach (var el in row.ItemArray)
+                {
+                    record.RecordValues.Add(el.ToString());
+                }
+                model.Add(record);
+            }
+
+            return model;
+
+        }
+
         public static TableModel GetTableModelByName(string tableName)
         {
             var query = Scripts.GetColumsScript(tableName);

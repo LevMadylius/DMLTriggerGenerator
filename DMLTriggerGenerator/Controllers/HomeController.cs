@@ -20,13 +20,6 @@ namespace DMLTriggerGenerator.Controllers
         [Connected]
         public ActionResult Index()
         {
-            //var connectionString = new ConnectionString();
-            //connectionString.IP = "127.0.0.1";
-            //connectionString.InitialCatalog = "simma";
-            //connectionString.Port = 1433;
-            //connectionString.UserId = "sa";
-            //connectionString.Password = "Qwerty123$";
-
             var tableNames = LoadData.GetTableNames();
 
             return View(tableNames);

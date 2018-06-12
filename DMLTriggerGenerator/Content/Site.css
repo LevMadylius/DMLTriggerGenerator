@@ -51,7 +51,7 @@ textarea {
     overflow-x: hidden;
 }
 
-#columns-body{
+#columns-body, #history-body{
     max-height: 470px;
     overflow: auto;
     overflow-x: hidden;

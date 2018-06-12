@@ -120,7 +120,7 @@ namespace DMLTriggerGenerator.DAL.DBManipulations
                 }
                 catch (SqlException ex)
                 {
-                    throw;
+                    return false;
                 }
                 return true;
             }

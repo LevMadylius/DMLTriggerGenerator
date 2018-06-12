@@ -50,6 +50,7 @@
     <Compile Include="Model\ColumnModel.cs" />
     <Compile Include="Model\ConnectionString.cs" />
     <Compile Include="Model\IColumnModel.cs" />
+    <Compile Include="Model\RecordModel.cs" />
     <Compile Include="Model\TableModel.cs" />
     <Compile Include="Model\TrackingModel.cs" />
     <Compile Include="Model\TriggerModel.cs" />
